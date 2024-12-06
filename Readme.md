@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
-* Студент: [Екатерина Нестеренко](https://up.htmlacademy.ru/javascript-individual/2/user/2322599).
-* Наставник: `Неизвестно`.
+- Студент: [Екатерина Нестеренко](https://up.htmlacademy.ru/javascript-individual/2/user/2322599).
+- Наставник: `Артём Картавый`.
 
 ---
 
