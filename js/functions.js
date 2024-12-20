@@ -1,8 +1,7 @@
 function checkStringLength(string, maxLength) {
-  string.length <= maxLength;
+  return string.length <= maxLength;
 }
-
-checkStringLength();
+checkStringLength('аа', 2);
 
 function checkPalindrom(string) {
   const normalisedString = string.replaceAll(' ', '').toLowerCase();
@@ -12,4 +11,4 @@ function checkPalindrom(string) {
   }
   return normalisedString === reversedString;
 }
-checkPalindrom();
+checkPalindrom('Топо т');
