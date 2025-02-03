@@ -27,3 +27,4 @@ function isMeetingAtWorkingHours(workStart, workEnd, meetingStart, meetingDurati
 
   return meetingStartMinutes >= WorkStartMinutes && meetingEndMinutes <= workEndMinutes;
 }
+isMeetingAtWorkingHours('08:00', '17:30', '14:00', 90);
