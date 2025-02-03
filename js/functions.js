@@ -12,3 +12,18 @@ function checkPalindrom(string) {
   return normalisedString === reversedString;
 }
 checkPalindrom('Топо т');
+
+function isMeetingAtWorkingHours(workStart, workEnd, meetingStart, meetingDuration) {
+  function timeToMinutes (time) {
+    const [hours, minutes] =
+    time.split(':').map(Number);
+    return hours * 60 + minutes;
+  }
+
+  const WorkStartMinutes = timeToMinutes(workStart);
+  const workEndMinutes = timeToMinutes(workEnd);
+  const meetingStartMinutes = timeToMinutes(meetingStart);
+  const meetingEndMinutes = timeToMinutes(meetingDuration);
+
+  return meetingStartMinutes >= WorkStartMinutes && meetingEndMinutes <= workEndMinutes;
+}
