@@ -13,11 +13,12 @@ function checkPalindrom(string) {
 }
 checkPalindrom('Топо т');
 
+  const MINUTES_IN_HOUR = 60;
 function isMeetingAtWorkingHours(workStart, workEnd, meetingStart, meetingDuration) {
   function timeToMinutes (time) {
     const [hours, minutes] =
     time.split(':').map(Number);
-    return hours * 60 + minutes;
+    return hours * MINUTES_IN_HOUR + minutes;
   }
 
   const WorkStartMinutes = timeToMinutes(workStart);
