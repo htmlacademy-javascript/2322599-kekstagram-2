@@ -1,11 +1,8 @@
-import {generatePhotos} from './data.js';
-
 const picturesContainer = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('picture');
 
-const photos = generatePhotos();
 
-const renderPhotos = () => {
+const renderPhotos = (photos) => {
   const picturesFragment = document.createDocumentFragment();
   photos.forEach(({ url, description, likes, comments}) => {
     const pictureElement = pictureTemplate.cloneNode(true);
