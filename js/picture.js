@@ -1,5 +1,7 @@
+import {renderBigPicture} from './big-picture.js';
+
 const picturesContainer = document.querySelector('.pictures');
-const pictureTemplate = document.querySelector('#picture').content.querySelector('picture');
+const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
 
 const renderPhotos = (photos) => {
@@ -10,6 +12,10 @@ const renderPhotos = (photos) => {
     pictureElement.querySelector('.picture__img').alt = description;
     pictureElement.querySelector('.picture__likes').textContent = likes;
     pictureElement.querySelector('.picture__comments').textContent = comments.length;
+
+    pictureElement.addEventListener('click', () => {
+      renderBigPicture(url, description. likes, comments);
+    });
     picturesFragment.appendChild(pictureElement);
   });
   picturesContainer.appendChild(picturesFragment);

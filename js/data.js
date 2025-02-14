@@ -32,7 +32,7 @@ const MESSAGES = [
 
 const generateComments = () => {
   const commentCount = getRandomInteger(MIN_COMMENTS, MAX_COMMENTS);
-  Array.from({length: commentCount}, (_, i) => ({
+  return Array.from({length: commentCount}, (_, i) => ({
     id : i + 1,
     avatar: `img/avatar-${getRandomInteger(MIN_VALUE, MAX_AVATAR)}.svg`,
     message: getRandomArrayElement(MESSAGES),
@@ -41,7 +41,7 @@ const generateComments = () => {
 };
 
 const generatePhotos = () => {
-  Array.from({length: MAX_PHOTO}, (_, i) => ({
+  return Array.from({length: MAX_PHOTO}, (_, i) => ({
     id : i + 1,
     url: `photos/${i + 1}.jpg`,
     description: `Фотография номер ${i + 1}`,
