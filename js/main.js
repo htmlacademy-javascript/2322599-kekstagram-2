@@ -1,5 +1,4 @@
-import {generatePhotos} from './data.js';
-import {renderPhotos} from './picture.js';
-import './big-picture.js';
+import { generatePhotos } from './data.js';
+import { renderPhotos } from './picture.js';
 
 renderPhotos(generatePhotos());
