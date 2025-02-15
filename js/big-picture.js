@@ -4,19 +4,19 @@ const bigPicture = document.querySelector('.big-picture');
 const closeButton = bigPicture.querySelector('.big-picture__cancel');
 const bodyElement = document.body;
 
+const onDocumentKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    onCloseButtonClick();
+  }
+};
+
 const onCloseButtonClick = () => {
   bigPicture.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
 
   closeButton.removeEventListener('click', onCloseButtonClick);
   document.removeEventListener('keydown', onDocumentKeydown);
-};
-
-const onDocumentKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    onCloseButtonClick();
-  }
 };
 
 const openBigPicture = (photo) => {
@@ -39,17 +39,17 @@ const openBigPicture = (photo) => {
   commentsTotalCount.textContent = photo.comments.length;
   socialCaption.textContent = photo.description;
 
-  const commentsList = photo.comments.reduce((accumulator, comment) =>
-    accumulator +
-    `<li class="social__comment">
-            <img class="social__picture"
-                src="${comment.avatar}"
-                alt="${comment.name}"
-                width="35"
-                height="35">
-            <p class="social__text">${comment.message}</p>
-        </li>`
-    , '');
+  const commentsList = photo.comments.reduce((accumulator, comment) => {
+    return accumulator +
+      `<li class="social__comment">
+        <img class="social__picture"
+          src="${comment.avatar}"
+          alt="${comment.name}"
+          width="35"
+          height="35">
+          <p class="social__text">${comment.message}</p>
+      </li>`;
+  }, '');
 
   socialComments.innerHTML = commentsList;
 
