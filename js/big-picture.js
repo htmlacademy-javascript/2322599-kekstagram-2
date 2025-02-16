@@ -10,14 +10,14 @@ function onCloseButtonClick() {
 
   closeButton.removeEventListener('click', onCloseButtonClick);
   document.removeEventListener('keydown', onDocumentKeydown);
-};
+}
 
 function onDocumentKeydown(evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
     onCloseButtonClick();
-  };
-};
+  }
+}
 
 closeButton.addEventListener('click', onCloseButtonClick);
 document.addEventListener('keydown', onDocumentKeydown);
@@ -43,16 +43,15 @@ const openBigPicture = (photo) => {
   socialCaption.textContent = photo.description;
 
   const commentsList = photo.comments.reduce((accumulator, comment) =>
-    accumulator +
-    `<li class="social__comment">
+    `${accumulator}
+    <li class="social__comment">
       <img class="social__picture"
-      src="${comment.avatar}"
+        src="${comment.avatar}"
         alt="${comment.name}"
         width="35"
         height="35">
         <p class="social__text">${comment.message}</p>
-    </li>`,
-    '');
+    </li>`, '');
 
   socialComments.innerHTML = commentsList;
 
