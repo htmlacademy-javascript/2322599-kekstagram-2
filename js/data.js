@@ -1,4 +1,4 @@
-import {getRandomInteger, getRandomArrayElement} from './util.js';
+import { getRandomInteger, getRandomArrayElement } from './util.js';
 
 const MIN_VALUE = 1;
 const MIN_LIKES = 15;
@@ -32,22 +32,21 @@ const MESSAGES = [
 
 const generateComments = () => {
   const commentCount = getRandomInteger(MIN_COMMENTS, MAX_COMMENTS);
-  Array.from({length: commentCount}, (_, i) => ({
-    id : i + 1,
+  return Array.from({ length: commentCount }, (_, i) => ({
+    id: i + 1,
     avatar: `img/avatar-${getRandomInteger(MIN_VALUE, MAX_AVATAR)}.svg`,
     message: getRandomArrayElement(MESSAGES),
     name: getRandomArrayElement(NAMES)
   }));
 };
 
-const generatePhotos = () => {
-  Array.from({length: MAX_PHOTO}, (_, i) => ({
-    id : i + 1,
+const generatePhotos = () =>
+  Array.from({ length: MAX_PHOTO }, (_, i) => ({
+    id: i + 1,
     url: `photos/${i + 1}.jpg`,
     description: `Фотография номер ${i + 1}`,
     likes: getRandomInteger(MIN_LIKES, MAX_LIKES),
     comments: generateComments()
   }));
-};
 
-export {generatePhotos};
+export { generatePhotos };
