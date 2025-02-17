@@ -9,7 +9,7 @@ const commentsTotalCount = bigPicture.querySelector('.social__comment-total-coun
 const socialComments = bigPicture.querySelector('.social__comments');
 
 let currentCommentIndex = 0;
-let COMMENTS_STEP = 5;
+const COMMENTS_STEP = 5;
 
 // Закрывает модальное окно
 function onCloseButtonClick() {
@@ -34,10 +34,10 @@ function renderComments(comments) {
 
   socialComments.innerHTML = '';
 
-  commentsToShow.forEach(comment => {
+  commentsToShow.forEach((comment) => {
     const commentElement = document.createElement('li');
 
-    commentElement.classList.add("social__comment");
+    commentElement.classList.add('social__comment');
     commentElement.innerHTML =
       `<img class="social__picture"
     src="${comment.avatar}"
@@ -78,6 +78,6 @@ function openBigPicture(photo) {
 
   closeButton.addEventListener('click', onCloseButtonClick);
   document.addEventListener('keydown', onDocumentKeydown);
-};
+}
 
 export { openBigPicture };
