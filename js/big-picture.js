@@ -12,19 +12,19 @@ const socialComments = bigPicture.querySelector('.social__comments');
 let currentCommentIndex = 0;
 
 // Закрывает модальное окно
-const onCloseButtonClick = () => {
+const closeBigPicture = () => {
   bigPicture.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
-
-  closeButton.removeEventListener('click', onCloseButtonClick);
-  document.removeEventListener('keydown', onDocumentKeydown);
 };
+
+// Закрывает модальное окно по клику
+const onCloseButtonClick = () => closeBigPicture();
 
 // Закрыввет при нажатии Esc
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    onCloseButtonClick();
+    closeBigPicture();
   }
 };
 
@@ -65,11 +65,10 @@ const updateCommentCount = (comments) => {
 // Открывает большое фото
 const openBigPicture = (photo) => {
   updateBigPicture(photo);
-  setUpCommentsLoader(photo.comments);
   ShowBigPicture();
-  closeBigPicture();
 };
 
+// Обновляет большое фото
 const updateBigPicture = (photo) => {
   const bigPictureImage = bigPicture.querySelector('.big-picture__img img');
   const socialCaption = bigPicture.querySelector('.social__caption');
@@ -83,23 +82,23 @@ const updateBigPicture = (photo) => {
 
   renderComments(photo.comments);
   setUpCommentsLoader(photo.comments);
-}
+};
 
+// Настраивает обработчик для загрузки комментариев
 const setUpCommentsLoader = (comments) => {
   commentsLoader.onclick = () => {
     currentCommentIndex += COMMENTS_STEP;
     renderComments(comments);
   };
-}
+};
 
+// Управляет большим фото
 const ShowBigPicture = () => {
   bigPicture.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
 }
 
-const closeBigPicture = () => {
-  closeButton.addEventListener('click', onCloseButtonClick);
-  document.addEventListener('keydown', onDocumentKeydown);
-}
+closeButton.addEventListener('click', onCloseButtonClick);
+document.addEventListener('keydown', onDocumentKeydown);
 
 export { openBigPicture };
