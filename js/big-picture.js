@@ -51,10 +51,23 @@ const updateCommentCount = (comments) => {
   commentsLoader.classList.toggle('hidden', currentCommentIndex + COMMENTS_STEP >= comments.length);
 };
 
-// Открывает большое фото
-const openBigPicture = (photo) => {
-  updateBigPicture(photo);
-  ShowBigPicture();
+// Отображает комментарии
+const renderComments = (comments) => {
+  const commentsToShow = comments.slice(currentCommentIndex, currentCommentIndex + COMMENTS_STEP);
+
+  socialComments.innerHTML = '';
+
+  commentsToShow.forEach(createComment);
+
+  updateCommentCount(comments);
+};
+
+// Настраивает обработчик для загрузки комментариев
+const setUpCommentsLoader = (comments) => {
+  commentsLoader.onclick = () => {
+    currentCommentIndex += COMMENTS_STEP;
+    renderComments(comments);
+  };
 };
 
 // Обновляет большое фото
@@ -73,29 +86,16 @@ const updateBigPicture = (photo) => {
   setUpCommentsLoader(photo.comments);
 };
 
-// Настраивает обработчик для загрузки комментариев
-const setUpCommentsLoader = (comments) => {
-  commentsLoader.onclick = () => {
-    currentCommentIndex += COMMENTS_STEP;
-    renderComments(comments);
-  };
-};
-
-// Отображает комментарии
-const renderComments = (comments) => {
-  const commentsToShow = comments.slice(currentCommentIndex, currentCommentIndex + COMMENTS_STEP);
-
-  socialComments.innerHTML = '';
-
-  commentsToShow.forEach(createComment);
-
-  updateCommentCount(comments);
-};
-
 // Управляет большим фото
 const ShowBigPicture = () => {
   bigPicture.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
+};
+
+// Открывает большое фото
+const openBigPicture = (photo) => {
+  updateBigPicture(photo);
+  ShowBigPicture();
 };
 
 closeButton.addEventListener('click', onCloseButtonClick);
