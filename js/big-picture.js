@@ -28,17 +28,6 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
-// Отображает комментарии
-const renderComments = (comments) => {
-  const commentsToShow = comments.slice(currentCommentIndex, currentCommentIndex + COMMENTS_STEP);
-
-  socialComments.innerHTML = '';
-
-  commentsToShow.forEach(createComment);
-
-  updateCommentCount(comments);
-};
-
 // Создает эллемент для одного комментария
 const createComment = (comment) => {
   const commentElement = document.createElement('li');
@@ -92,11 +81,22 @@ const setUpCommentsLoader = (comments) => {
   };
 };
 
+// Отображает комментарии
+const renderComments = (comments) => {
+  const commentsToShow = comments.slice(currentCommentIndex, currentCommentIndex + COMMENTS_STEP);
+
+  socialComments.innerHTML = '';
+
+  commentsToShow.forEach(createComment);
+
+  updateCommentCount(comments);
+};
+
 // Управляет большим фото
 const ShowBigPicture = () => {
   bigPicture.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
-}
+};
 
 closeButton.addEventListener('click', onCloseButtonClick);
 document.addEventListener('keydown', onDocumentKeydown);
