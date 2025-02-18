@@ -1,5 +1,6 @@
 import { isEscapeKey } from './util.js';
 
+const COMMENTS_STEP = 5;
 const bigPicture = document.querySelector('.big-picture');
 const closeButton = bigPicture.querySelector('.big-picture__cancel');
 const bodyElement = document.body;
@@ -9,53 +10,67 @@ const commentsTotalCount = bigPicture.querySelector('.social__comment-total-coun
 const socialComments = bigPicture.querySelector('.social__comments');
 
 let currentCommentIndex = 0;
-const COMMENTS_STEP = 5;
 
 // Закрывает модальное окно
-function onCloseButtonClick() {
+const onCloseButtonClick = () => {
   bigPicture.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
 
   closeButton.removeEventListener('click', onCloseButtonClick);
   document.removeEventListener('keydown', onDocumentKeydown);
-}
+};
 
 // Закрыввет при нажатии Esc
-function onDocumentKeydown(evt) {
+const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
     onCloseButtonClick();
   }
-}
+};
 
 // Отображает комментарии
-function renderComments(comments) {
+const renderComments = (comments) => {
   const commentsToShow = comments.slice(currentCommentIndex, currentCommentIndex + COMMENTS_STEP);
 
   socialComments.innerHTML = '';
 
-  commentsToShow.forEach((comment) => {
-    const commentElement = document.createElement('li');
+  commentsToShow.forEach(createComment);
 
-    commentElement.classList.add('social__comment');
-    commentElement.innerHTML =
-      `<img class="social__picture"
+  updateCommentCount(comments);
+};
+
+// Создает эллемент для одного комментария
+const createComment = (comment) => {
+  const commentElement = document.createElement('li');
+
+  commentElement.classList.add('social__comment');
+  commentElement.innerHTML =
+    `<img class="social__picture"
     src="${comment.avatar}"
     alt="${comment.name}"
     width="35"
     height="35">
     <p class="social__text">${comment.message}</p>`;
-    socialComments.appendChild(commentElement);
-  });
+  socialComments.appendChild(commentElement);
+};
 
+// Обновляет счетчик комментариев
+const updateCommentCount = (comments) => {
   commentsShownCount.textContent = Math.min(currentCommentIndex + COMMENTS_STEP, comments.length);
   commentsTotalCount.textContent = comments.length;
 
   commentsLoader.classList.toggle('hidden', currentCommentIndex + COMMENTS_STEP >= comments.length);
-}
+};
 
 // Открывает большое фото
-function openBigPicture(photo) {
+const openBigPicture = (photo) => {
+  updateBigPicture(photo);
+  setUpCommentsLoader(photo.comments);
+  ShowBigPicture();
+  closeBigPicture();
+};
+
+const updateBigPicture = (photo) => {
   const bigPictureImage = bigPicture.querySelector('.big-picture__img img');
   const socialCaption = bigPicture.querySelector('.social__caption');
   const likesCount = bigPicture.querySelector('.likes-count');
@@ -67,15 +82,22 @@ function openBigPicture(photo) {
   socialCaption.textContent = photo.description;
 
   renderComments(photo.comments);
+  setUpCommentsLoader(photo.comments);
+}
 
+const setUpCommentsLoader = (comments) => {
   commentsLoader.onclick = () => {
     currentCommentIndex += COMMENTS_STEP;
-    renderComments(photo.comments);
+    renderComments(comments);
   };
+}
 
+const ShowBigPicture = () => {
   bigPicture.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
+}
 
+const closeBigPicture = () => {
   closeButton.addEventListener('click', onCloseButtonClick);
   document.addEventListener('keydown', onDocumentKeydown);
 }
