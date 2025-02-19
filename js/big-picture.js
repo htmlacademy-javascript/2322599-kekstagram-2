@@ -64,10 +64,10 @@ const renderComments = (comments) => {
 
 // Настраивает обработчик для загрузки комментариев
 const setUpCommentsLoader = (comments) => {
-  commentsLoader.onclick = () => {
+  commentsLoader.addEventListener('click', () => {
     currentCommentIndex += COMMENTS_STEP;
     renderComments(comments);
-  };
+  });
 };
 
 // Обновляет большое фото
