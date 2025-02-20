@@ -25,9 +25,8 @@ const hastagErrors = {
   maxLength: `Длина комментария не может превышать ${MAX_COMMENT_LENGTH} символов`
 };
 
-const extractLowerCaseHashtags = (value) => {
-  return value.split(' ').map((tag) => tag.toLowerCase());
-};
+const extractLowerCaseHashtags = (value) =>
+  value.split(' ').map((tag) => tag.toLowerCase());
 
 const hasUniqueHashtags = (hashtags) => {
   const uniqueHashtags = new Set(hashtags);
@@ -45,7 +44,7 @@ const checkHashtagValidity = (hashtags) => {
     isValid = false;
     error = hastagErrors.notUnique;
   } else {
-    const invalidHashtag = hashtags.find(tag => !VALID_HASHTAGS.test(tag));
+    const invalidHashtag = hashtags.find((tag) => !VALID_HASHTAGS.test(tag));
     if (invalidHashtag) {
       isValid = false;
       error = hastagErrors.invalidFormat;
