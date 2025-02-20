@@ -21,7 +21,38 @@ const pristine = new Pristine(uploadForm, {
 const hastagErrors = {
   tooMany: `Не больше ${MAX_HASHTAGS} хэштегов`,
   notUnique: 'Хэштеги должны быть уникальными',
-  invalidFormat: 'Хэштег должен начинаться с # и содержать только буквы и цифры (максимум 20 символов)'
+  invalidFormat: 'Хэштег должен начинаться с # и содержать только буквы и цифры (максимум 20 символов)',
+  maxLength: `Длина комментария не может превышать ${MAX_COMMENT_LENGTH} символов`
+};
+
+const extractLowerCaseHashtags = (value) => {
+  return value.split(' ').map((tag) => tag.toLowerCase());
+};
+
+const hasUniqueHashtags = (hashtags) => {
+  const uniqueHashtags = new Set(hashtags);
+  return uniqueHashtags.size !== hashtags.length;
+};
+
+const checkHashtagValidity = (hashtags) => {
+  let isValid = true;
+  let error = '';
+
+  if (hashtags.length > MAX_HASHTAGS) {
+    isValid = false;
+    error = hastagErrors.tooMany;
+  } else if (hasUniqueHashtags(hashtags)) {
+    isValid = false;
+    error = hastagErrors.notUnique;
+  } else {
+    const invalidHashtag = hashtags.find(tag => !VALID_HASHTAGS.test(tag));
+    if (invalidHashtag) {
+      isValid = false;
+      error = hastagErrors.invalidFormat;
+    }
+  }
+
+  return { isValid, error };
 };
 
 const validateHashtags = (value) => {
@@ -29,48 +60,21 @@ const validateHashtags = (value) => {
     return true;
   }
 
-  const hashtags = value.split(' ').map((tag) => tag.toLowerCase());
+  const hashtags = extractLowerCaseHashtags(value);
+  const { isValid } = checkHashtagValidity(hashtags);
 
-  if (hashtags.length > MAX_HASHTAGS) {
-    return false;
-  }
-
-  const uniqueHashtags = new Set(hashtags);
-  if (uniqueHashtags.size !== hashtags.length) {
-    return false;
-  }
-
-  for (const tag of hashtags) {
-    if (!VALID_HASHTAGS.test(tag)) {
-      return false;
-    }
-  }
-
-  return true;
+  return isValid;
 };
 
 const getHashtagErrorMessage = (value) => {
   if (!value) {
     return '';
   }
-  const hashtags = value.split(' ').map((tag) => tag.toLowerCase());
 
-  if (hashtags.length > MAX_HASHTAGS) {
-    return hastagErrors.tooMany;
-  }
+  const hashtags = extractLowerCaseHashtags(value);
+  const { isValid, error } = checkHashtagValidity(hashtags);
 
-  const uniqueHashtags = new Set(hashtags);
-  if (uniqueHashtags.size !== hashtags.length) {
-    return hastagErrors.notUnique;
-  }
-
-  for (const tag of hashtags) {
-    if (!VALID_HASHTAGS.test(tag)) {
-      return hastagErrors.invalidFormat;
-    }
-  }
-
-  return '';
+  return isValid ? '' : error;
 };
 
 const validateComment = (value) => {
@@ -89,7 +93,7 @@ pristine.addValidator(
 pristine.addValidator(
   commentInput,
   validateComment,
-  `Длина комментария не может превышать ${MAX_COMMENT_LENGTH} символов`
+  hastagErrors.maxLength
 );
 
 const onDocumentKeydown = (evt) => {
