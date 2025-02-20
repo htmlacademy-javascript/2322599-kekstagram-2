@@ -1,4 +1,4 @@
-import { isEscapeKey } from "./util.js";
+import { isEscapeKey } from './util.js';
 
 const MAX_HASHTAGS = 5;
 const MAX_COMMENT_LENGTH = 140;
@@ -25,24 +25,35 @@ const hastagErrors = {
 };
 
 const validateHashtags = (value) => {
-  if (!value) return true;
-  const hashtags = value.split(' ').map(tag => tag.toLowerCase());
+  if (!value) {
+    return true;
+  }
 
-  if (hashtags.length > MAX_HASHTAGS) return false;
+  const hashtags = value.split(' ').map((tag) => tag.toLowerCase());
+
+  if (hashtags.length > MAX_HASHTAGS) {
+    return false;
+  }
 
   const uniqueHashtags = new Set(hashtags);
-  if (uniqueHashtags.size !== hashtags.length) return false;
+  if (uniqueHashtags.size !== hashtags.length) {
+    return false;
+  }
 
   for (const tag of hashtags) {
-    if (!VALID_HASHTAGS.test(tag)) return false;
+    if (!VALID_HASHTAGS.test(tag)) {
+      return false;
+    }
   }
 
   return true;
 };
 
 const getHashtagErrorMessage = (value) => {
-  if (!value) return '';
-  const hashtags = value.split(' ').map(tag => tag.toLowerCase());
+  if (!value) {
+    return '';
+  }
+  const hashtags = value.split(' ').map((tag) => tag.toLowerCase());
 
   if (hashtags.length > MAX_HASHTAGS) {
     return hastagErrors.tooMany;
@@ -63,7 +74,9 @@ const getHashtagErrorMessage = (value) => {
 };
 
 const validateComment = (value) => {
-  if (!value) return true;
+  if (!value) {
+    return true;
+  }
   return value.length <= MAX_COMMENT_LENGTH;
 };
 
@@ -79,15 +92,6 @@ pristine.addValidator(
   `Длина комментария не может превышать ${MAX_COMMENT_LENGTH} символов`
 );
 
-const closePhotoUpload = () => {
-  photoUploadOverlay.classList.add('hidden');
-  document.body.classList.remove('modal-open');
-  hashtagInput.value = '';
-  commentInput.value = '';
-  cancelButton.removeEventListener('click', closePhotoUpload);
-  document.removeEventListener('keydown', onDocumentKeydown);
-};
-
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
@@ -98,6 +102,15 @@ const onDocumentKeydown = (evt) => {
       closePhotoUpload();
     }
   }
+};
+
+const closePhotoUpload = () => {
+  photoUploadOverlay.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+  hashtagInput.value = '';
+  commentInput.value = '';
+  cancelButton.removeEventListener('click', closePhotoUpload);
+  document.removeEventListener('keydown', onDocumentKeydown);
 };
 
 const initUploadModal = () => {
