@@ -92,25 +92,24 @@ pristine.addValidator(
   `Длина комментария не может превышать ${MAX_COMMENT_LENGTH} символов`
 );
 
-const onDocumentKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    if (document.activeElement === hashtagInput || document.activeElement === commentInput) {
-      evt.stopPropagation();
-    }
-    else {
-      closePhotoUpload();
-    }
-  }
-};
-
-const closePhotoUpload = () => {
+function closePhotoUpload() {
   photoUploadOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   hashtagInput.value = '';
   commentInput.value = '';
   cancelButton.removeEventListener('click', closePhotoUpload);
   document.removeEventListener('keydown', onDocumentKeydown);
+};
+
+const onDocumentKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    if (document.activeElement === hashtagInput || document.activeElement === commentInput) {
+      evt.stopPropagation();
+    } else {
+      closePhotoUpload();
+    }
+  }
 };
 
 const initUploadModal = () => {
@@ -124,7 +123,6 @@ const initUploadModal = () => {
   uploadForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     if (pristine.validate()) {
-      console.log('Форма отправлена');
       closePhotoUpload();
     }
   });
