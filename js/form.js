@@ -1,5 +1,5 @@
 import { isEscapeKey } from './util.js';
-import { initScaleControls } from './scale.js'
+import { initScaleControls } from './scale.js';
 import { initEffects } from './effects-slider.js';
 
 const MAX_HASHTAGS = 5;
