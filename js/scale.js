@@ -7,7 +7,7 @@ const scaleControlSmaller = document.querySelector('.scale__control--smaller');
 const scaleControlBigger = document.querySelector('.scale__control--bigger');
 const imagePreview = document.querySelector('.img-upload__preview img');
 
-let currentScale = 100;
+let currentScale = MAX_SCALE;
 
 // Обновляет масштаб
 const updateScale = (newScale) => {
