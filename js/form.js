@@ -1,4 +1,6 @@
 import { isEscapeKey } from './util.js';
+import { initScaleControls } from './scale.js';
+import { initEffects } from './effects-slider.js';
 
 const MAX_HASHTAGS = 5;
 const MAX_COMMENT_LENGTH = 140;
@@ -121,6 +123,9 @@ const initUploadModal = () => {
     document.body.classList.add('modal-open');
     cancelButton.addEventListener('click', closePhotoUpload);
     document.addEventListener('keydown', onDocumentKeydown);
+
+    initScaleControls();
+    initEffects();
   });
 
   uploadForm.addEventListener('submit', (evt) => {
