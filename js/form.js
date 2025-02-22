@@ -19,6 +19,7 @@ const uploadForm = document.querySelector('.img-upload__form');
 const uploadFileInput = document.querySelector('.img-upload__input');
 const photoUploadOverlay = document.querySelector('.img-upload__overlay');
 const cancelButton = document.querySelector('.img-upload__cancel');
+const submitButton = document.querySelector('.img-upload__submit');
 
 const hashtagInput = uploadForm.querySelector('.text__hashtags');
 const commentInput = uploadForm.querySelector('.text__description');
@@ -123,6 +124,14 @@ const resetForm = () => {
   resetScale();
   resetEffect();
   closePhotoUpload();
+};
+
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
 };
 
 const initUploadModal = () => {
