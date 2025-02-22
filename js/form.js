@@ -1,10 +1,19 @@
 import { isEscapeKey } from './util.js';
-import { initScaleControls } from './scale.js';
-import { initEffects } from './effects-slider.js';
+import { initScaleControls, resetScale } from './scale.js';
+import { initEffects, resetEffect } from './effects-slider.js';
+import { sendData } from './api.js';
+import { showError, showSuccess } from './messages.js';
 
 const MAX_HASHTAGS = 5;
 const MAX_COMMENT_LENGTH = 140;
 const VALID_HASHTAGS = /^(#[A-Za-zА-Яа-я0-9]{1,19})$/i;
+
+const hastagErrors = {
+  tooMany: `Не больше ${MAX_HASHTAGS} хэштегов`,
+  notUnique: 'Хэштеги должны быть уникальными',
+  invalidFormat: 'Хэштег должен начинаться с # и содержать только буквы и цифры (максимум 20 символов)',
+  maxLength: `Длина комментария не может превышать ${MAX_COMMENT_LENGTH} символов`
+};
 
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadFileInput = document.querySelector('.img-upload__input');
@@ -19,13 +28,6 @@ const pristine = new Pristine(uploadForm, {
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__field-wrapper--error'
 });
-
-const hastagErrors = {
-  tooMany: `Не больше ${MAX_HASHTAGS} хэштегов`,
-  notUnique: 'Хэштеги должны быть уникальными',
-  invalidFormat: 'Хэштег должен начинаться с # и содержать только буквы и цифры (максимум 20 символов)',
-  maxLength: `Длина комментария не может превышать ${MAX_COMMENT_LENGTH} символов`
-};
 
 const extractLowerCaseHashtags = (value) =>
   value.split(' ').map((tag) => tag.toLowerCase());
@@ -117,6 +119,12 @@ function closePhotoUpload() {
   document.removeEventListener('keydown', onDocumentKeydown);
 }
 
+const resetForm = () => {
+  resetScale();
+  resetEffect();
+  closePhotoUpload();
+};
+
 const initUploadModal = () => {
   uploadFileInput.addEventListener('change', () => {
     photoUploadOverlay.classList.remove('hidden');
@@ -128,12 +136,29 @@ const initUploadModal = () => {
     initEffects();
   });
 
-  uploadForm.addEventListener('submit', (evt) => {
+  uploadForm.addEventListener('submit', async (evt) => {
     evt.preventDefault();
     if (pristine.validate()) {
-      closePhotoUpload();
+      const submitButton = uploadForm.querySelector('.submit-button');
+      submitButton.disabled = true;
+
+      const formData = new FormData(uploadForm);
+
+      try {
+        const response = await sendData(formData);
+
+        showSuccess();
+        closePhotoUpload();
+        resetForm();
+
+      } catch (error) {
+        showError();
+
+      } finally {
+        submitButton.disabled = false;
+      }
     }
   });
 };
 
-initUploadModal();
+export { initUploadModal };

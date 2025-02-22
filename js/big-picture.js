@@ -29,18 +29,17 @@ const onDocumentKeydown = (evt) => {
 };
 
 // Создает эллемент для одного комментария
-const createComment = (comment) => {
-  const commentElement = document.createElement('li');
-
-  commentElement.classList.add('social__comment');
-  commentElement.innerHTML =
-    `<img class="social__picture"
-    src="${comment.avatar}"
-    alt="${comment.name}"
-    width="35"
-    height="35">
-    <p class="social__text">${comment.message}</p>`;
-  socialComments.appendChild(commentElement);
+const createComment = ({ avatar, message, name }) => {
+  socialComments.insertAdjacentHTML('beforeend',
+    `<li class="social__comment">
+      <img class="social__picture"
+        src="${avatar}"
+        alt="${name}"
+        width="35"
+        height="35">
+      <p class="social__text">${message}</p>
+    </li>`
+  );
 };
 
 // Обновляет счетчик комментариев
