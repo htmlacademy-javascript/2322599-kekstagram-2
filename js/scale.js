@@ -36,6 +36,6 @@ const initScaleControls = () => {
 
 const resetScale = () => {
   updateScale(MAX_SCALE);
-}
+};
 
 export { initScaleControls, resetScale };

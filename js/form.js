@@ -138,24 +138,18 @@ const initUploadModal = () => {
 
   uploadForm.addEventListener('submit', async (evt) => {
     evt.preventDefault();
+    const formData = new FormData(uploadForm);
+
     if (pristine.validate()) {
-      const submitButton = uploadForm.querySelector('.submit-button');
-      submitButton.disabled = true;
-
-      const formData = new FormData(uploadForm);
-
+      blockSubmitButton();
       try {
-        const response = await sendData(formData);
-
+        await sendData(formData);
         showSuccess();
-        closePhotoUpload();
         resetForm();
-
       } catch (error) {
         showError();
-
       } finally {
-        submitButton.disabled = false;
+        unblockSubmitButton();
       }
     }
   });

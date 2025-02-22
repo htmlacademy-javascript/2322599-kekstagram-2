@@ -40,7 +40,7 @@ const updateEffect = (effect, value) => {
 const resetEffect = () => {
   effectLevelContainer.style.display = 'none';
   previewImage.style.filter = '';
-}
+};
 
 // Обработчик изменения эффекта
 const initEffects = () => {
