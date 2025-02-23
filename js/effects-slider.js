@@ -36,6 +36,12 @@ const updateEffect = (effect, value) => {
   }
 };
 
+// Сбрасывает эффект к исходному состоянию
+const resetEffect = () => {
+  effectLevelContainer.style.display = 'none';
+  previewImage.style.filter = '';
+};
+
 // Обработчик изменения эффекта
 const initEffects = () => {
   document.querySelectorAll('input[name="effect"]').forEach((input) => {
@@ -44,7 +50,7 @@ const initEffects = () => {
 
       // Устанавливает значение слайдера на 0 для оригинала
       if (selectedEffect === 'none') {
-        effectLevelContainer.style.display = 'none';
+        resetEffect();
         slider.noUiSlider.set(0);
         updateEffect(selectedEffect, 0);
         return;
@@ -84,4 +90,4 @@ const initEffects = () => {
   updateEffect(NO_EFFECT, INITIAL_VALUE);
 };
 
-export { initEffects };
+export { initEffects, resetEffect };

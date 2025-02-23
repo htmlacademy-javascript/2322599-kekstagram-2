@@ -1,15 +1,25 @@
 import { isEscapeKey } from './util.js';
-import { initScaleControls } from './scale.js';
-import { initEffects } from './effects-slider.js';
+import { initScaleControls, resetScale } from './scale.js';
+import { initEffects, resetEffect } from './effects-slider.js';
+import { sendData } from './api.js';
+import { showError, showSuccess } from './messages.js';
 
 const MAX_HASHTAGS = 5;
 const MAX_COMMENT_LENGTH = 140;
 const VALID_HASHTAGS = /^(#[A-Za-zА-Яа-я0-9]{1,19})$/i;
 
+const hastagErrors = {
+  tooMany: `Не больше ${MAX_HASHTAGS} хэштегов`,
+  notUnique: 'Хэштеги должны быть уникальными',
+  invalidFormat: 'Хэштег должен начинаться с # и содержать только буквы и цифры (максимум 20 символов)',
+  maxLength: `Длина комментария не может превышать ${MAX_COMMENT_LENGTH} символов`
+};
+
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadFileInput = document.querySelector('.img-upload__input');
 const photoUploadOverlay = document.querySelector('.img-upload__overlay');
 const cancelButton = document.querySelector('.img-upload__cancel');
+const submitButton = document.querySelector('.img-upload__submit');
 
 const hashtagInput = uploadForm.querySelector('.text__hashtags');
 const commentInput = uploadForm.querySelector('.text__description');
@@ -19,13 +29,6 @@ const pristine = new Pristine(uploadForm, {
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__field-wrapper--error'
 });
-
-const hastagErrors = {
-  tooMany: `Не больше ${MAX_HASHTAGS} хэштегов`,
-  notUnique: 'Хэштеги должны быть уникальными',
-  invalidFormat: 'Хэштег должен начинаться с # и содержать только буквы и цифры (максимум 20 символов)',
-  maxLength: `Длина комментария не может превышать ${MAX_COMMENT_LENGTH} символов`
-};
 
 const extractLowerCaseHashtags = (value) =>
   value.split(' ').map((tag) => tag.toLowerCase());
@@ -117,6 +120,20 @@ function closePhotoUpload() {
   document.removeEventListener('keydown', onDocumentKeydown);
 }
 
+const resetForm = () => {
+  resetScale();
+  resetEffect();
+  closePhotoUpload();
+};
+
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+};
+
 const initUploadModal = () => {
   uploadFileInput.addEventListener('change', () => {
     photoUploadOverlay.classList.remove('hidden');
@@ -128,12 +145,23 @@ const initUploadModal = () => {
     initEffects();
   });
 
-  uploadForm.addEventListener('submit', (evt) => {
+  uploadForm.addEventListener('submit', async (evt) => {
     evt.preventDefault();
+    const formData = new FormData(uploadForm);
+
     if (pristine.validate()) {
-      closePhotoUpload();
+      blockSubmitButton();
+      try {
+        await sendData(formData);
+        showSuccess();
+        resetForm();
+      } catch (error) {
+        showError();
+      } finally {
+        unblockSubmitButton();
+      }
     }
   });
 };
 
-initUploadModal();
+export { initUploadModal };
