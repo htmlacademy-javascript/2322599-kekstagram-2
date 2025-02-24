@@ -1,5 +1,5 @@
 import { renderPhotos, clearPhotos } from './picture.js';
-import { debounce } from './util.js';
+import { debounce, shuffleArray } from './util.js';
 
 const TIMEOUT_DELAY_MS = 500;
 const MAX_RANDOM_IMAGES = 10;
@@ -10,14 +10,7 @@ let currentActiveFilter = filterContainer.querySelector('.img-filters__button--a
 // Сортирует по количеству комментариев
 const sortByCommentCount = (firstPhoto, secondPhoto) => secondPhoto.comments.length - firstPhoto.comments.length;
 
-// Перемешивает массива
-function shuffleArray(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-}
+
 
 // Определяет фильтры
 const photoFilters = {

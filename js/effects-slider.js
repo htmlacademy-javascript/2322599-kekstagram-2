@@ -90,4 +90,4 @@ const initEffects = () => {
   updateEffect(NO_EFFECT, INITIAL_VALUE);
 };
 
-export { initEffects, resetEffect };
+export { initEffects, resetEffect, previewImage };
