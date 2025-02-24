@@ -10,8 +10,6 @@ let currentActiveFilter = filterContainer.querySelector('.img-filters__button--a
 // Сортирует по количеству комментариев
 const sortByCommentCount = (firstPhoto, secondPhoto) => secondPhoto.comments.length - firstPhoto.comments.length;
 
-
-
 // Определяет фильтры
 const photoFilters = {
   defaultFilter: {
