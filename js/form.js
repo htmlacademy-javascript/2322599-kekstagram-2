@@ -3,6 +3,7 @@ import { initScaleControls, resetScale } from './scale.js';
 import { initEffects, resetEffect } from './effects-slider.js';
 import { sendData } from './api.js';
 import { showError, showSuccess } from './messages.js';
+import { uploadFile } from './upload-photo.js';
 
 const MAX_HASHTAGS = 5;
 const MAX_COMMENT_LENGTH = 140;
@@ -143,6 +144,7 @@ const initUploadModal = () => {
 
     initScaleControls();
     initEffects();
+    uploadFile(uploadFileInput);
   });
 
   uploadForm.addEventListener('submit', async (evt) => {
