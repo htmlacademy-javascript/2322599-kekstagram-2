@@ -11,4 +11,13 @@ const getRandomArrayElement = (elements) => elements[getRandomInteger(0, element
 
 const isEscapeKey = (evt) => evt.key === ESCAPE_KEY;
 
-export { getRandomInteger, getRandomArrayElement, isEscapeKey };
+function debounce(callback, timeoutDelay = 500) {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
+
+
+export { getRandomInteger, getRandomArrayElement, isEscapeKey, debounce };

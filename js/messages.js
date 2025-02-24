@@ -1,4 +1,4 @@
-const ALERT_SHOW_TIME = 5000;
+const ALERT_SHOW_TIME_MS = 5000;
 
 const showError = (message) => {
   const template = document.querySelector('#error');
@@ -13,7 +13,7 @@ const showError = (message) => {
 
   setTimeout(() => {
     errorElement.remove();
-  }, ALERT_SHOW_TIME);
+  }, ALERT_SHOW_TIME_MS);
 };
 
 const showSuccess = () => {
@@ -31,7 +31,7 @@ const showSuccess = () => {
 
   setTimeout(() => {
     successElement.remove();
-  }, ALERT_SHOW_TIME);
+  }, ALERT_SHOW_TIME_MS);
 };
 
 const showDataError = () => {
@@ -42,7 +42,7 @@ const showDataError = () => {
 
   setTimeout(() => {
     dataErrorElement.remove();
-  }, ALERT_SHOW_TIME);
+  }, ALERT_SHOW_TIME_MS);
 };
 
 export { showError, showSuccess, showDataError };
